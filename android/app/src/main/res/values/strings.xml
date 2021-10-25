@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">muebleriaApp</string>
+    <string name="title_activity_main">muebleriaApp</string>
+    <string name="package_name">com.muebleria.global</string>
+    <string name="custom_url_scheme">com.muebleria.global</string>
+</resources>

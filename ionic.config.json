@@ -1,0 +1,9 @@
+{
+  "name": "muebleriaApp",
+  "integrations": {
+    "capacitor": {},
+    "webDir": "www"
+  },
+  "type": "angular"
+  
+}

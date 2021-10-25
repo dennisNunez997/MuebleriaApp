@@ -1,0 +1,6 @@
+{
+	"appId": "com.muebleria.global",
+	"appName": "muebleriaApp",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
