@@ -1,0 +1,17 @@
+
+
+.subtotal{
+    width: 95%;
+    height: 100px;
+    margin-right: auto;
+    margin-left: auto;
+    display: grid;
+    grid-template-columns: 35% 65%;
+}
+
+.titulo{
+    text-align: left;
+}
+.valor{
+    text-align: right;
+}

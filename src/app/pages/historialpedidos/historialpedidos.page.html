@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Pedidos</ion-title>
+    <ion-button (click)="close()" fill="clear" slot="end">
+      <ion-icon name="close-circle-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid style="width: 95%; margin-left: auto; margin-right: auto;" class="pedidos" *ngFor="let pedido of pedidos; let i=index">
+    <ion-row style="border-bottom: 1px solid #4970F0; ">
+      <ion-col size="1">
+        <p>{{i+1}}</p>
+      </ion-col>
+      <ion-col size="5">
+        <p>{{pedido.nombre_pedido}}</p>
+      </ion-col>
+      <ion-col size="3">
+        <p>{{pedido.cantidad_pedido}}</p>
+      </ion-col>
+      <ion-col size="3">
+        <p>${{pedido.precio_pedido}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="subtotal">
+    <div class="titulo">
+      <p style="font-weight: 20px; font-size: 25px; color: #4970F0; padding-left: 20px;">
+      Subtotal
+      </p>
+    </div>
+    <div class="valor">
+      <p style="font-size: 25px; padding-right: 50px;">${{subtotalfinal}}</p>
+    </div>
+  </div>
+
+
+
+</ion-content>

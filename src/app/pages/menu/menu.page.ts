@@ -46,6 +46,17 @@ export class MenuPage implements OnInit {
     this.navCtrl.navigateForward("/menu/profile")
   }
 
+  goToVendedores(){
+    this.navCtrl.navigateForward("/menu/list-vendedores")
+  }
+
+  goToPromocion(){
+    this.navCtrl.navigateForward("/menu/promocion")
+  }
+
+  goToPedidos(){
+    this.navCtrl.navigateForward("/menu/pedido")
+  }
 
   logout(){
     this.authservice.logoutUser().then(res => {

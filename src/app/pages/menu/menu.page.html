@@ -21,7 +21,18 @@
             <ion-icon name="person" slot="start"></ion-icon>
             <p>Mi Perfil</p>
           </ion-item>
-  
+
+          <ion-item (click)="goToPedidos()">
+            <ion-icon slot="start" name="briefcase"></ion-icon>
+            <p>Mis Pedidos</p>
+          </ion-item>
+
+          <ion-item (click)="goToPromocion()">
+            <ion-icon slot="start" name="pricetags"></ion-icon>
+
+            <p>Promociones</p>
+          </ion-item>
+          
           <ion-item >
             <ion-icon slot="start" name="call"></ion-icon>
             <p>Soporte</p>

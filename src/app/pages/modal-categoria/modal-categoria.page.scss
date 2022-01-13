@@ -1,0 +1,31 @@
+ion-content{
+    --ion-background-color:#ffffff;
+}
+
+ion-card{
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow:  -9px 9px 26px #d1d1d1,
+             9px -9px 26px #ffffff;
+}
+
+.searchbar{
+    background-color: #2C33FF;
+    margin-top: 20px;
+    border-radius: 30px;
+    width: 90%;
+    height: 60px;
+    margin-right: auto;
+    margin-left: auto;
+    box-shadow:  7px 7px 14px #d9d9d9,
+             -7px -7px 14px #ffffff;
+
+}
+
+ion-searchbar{
+    --ion-background-color:#2C33FF;
+    
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}

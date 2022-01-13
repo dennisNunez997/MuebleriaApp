@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>pedido</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button (click)="toggleMenu()">
+      </ion-menu-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div *ngFor="let vendedor of duplicados">
+    <div (click)="getListpedidos(vendedor.empresa)" class="empresa" >
+      <div  class="imagen">
+        <img [src]="vendedor.imagen">
+      </div>
+      <div class="nombre">
+        <p>{{vendedor.empresa}}</p>
+      </div>    
+    </div>  
+  </div>
+  
+  
+</ion-content>

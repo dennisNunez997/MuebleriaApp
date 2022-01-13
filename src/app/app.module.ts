@@ -16,6 +16,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,8 +30,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     AngularFireStorageModule,
     ReactiveFormsModule,
     AngularFireDatabaseModule,
+    PipesModule,
     FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

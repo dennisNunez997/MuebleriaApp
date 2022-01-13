@@ -6,6 +6,8 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { NavController } from '@ionic/angular';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
+import { AlertController } from '@ionic/angular';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,10 @@ export class AuthService {
   constructor(private AFauth: AngularFireAuth,
     private afs: AngularFireDatabase,
     private navCtrl: NavController,
-    private storage: AngularFireStorage) { }
+    private storage: AngularFireStorage,
+    private alertCtrl: AlertController
+    
+    ) { }
 
   loginUser(value){
     return new Promise<any>((resolve, reject) => {
@@ -37,7 +42,7 @@ export class AuthService {
       }
     })
   }
-  register(email: string, password: string, nombre: string, apellido: string, telefono: number, image: string){
+  register(email: string, password: string, nombre: string, apellido: string, telefono: string, image: string){
     return new Promise((resolve, reject) => {
       this.AFauth.createUserWithEmailAndPassword(email, password).then(res => {
         const uid = res.user.uid;
@@ -55,9 +60,22 @@ export class AuthService {
             })
           })
         })
-        this.navCtrl.navigateForward('/menu/home')
+        this.navCtrl.navigateForward('/login')
+        this.successRegister();
       })
     })
+  }
+
+  async successRegister(){
+    const alert = await this.alertCtrl.create({
+      animated: true,
+      cssClass: 'success',
+      header: 'Cuenta creada',
+      message: 'Inicie sesión para acceder a su cuenta',
+      buttons: ['OK']
+
+    })
+    await alert.present();
   }
   
   resetPassword(email: string){  

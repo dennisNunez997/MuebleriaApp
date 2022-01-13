@@ -1,5 +1,5 @@
 
-<ion-content>
+<ion-content class="ion-padding">
   <form style="height: 60%; width: 100%;" class="form" [formGroup]="validations_form"  
                 (ngSubmit)="tryRegister(validations_form.value)"> 
 
@@ -10,7 +10,7 @@
     </div>                               
                                
     <ion-item>
-      <ion-label style="height: 30%; font-size: 15px;" position="floating" color="primary">Nombre de Usuario</ion-label>
+      <ion-label style="height: 30%; font-size: 15px;" position="floating" color="primary">Nombre</ion-label>
       <ion-input [(ngModel)]="name" style="height: 30%; font-size: 15px;" type="text" formControlName="name"></ion-input>
     </ion-item>
             
@@ -23,7 +23,7 @@
     </div>
 
     <ion-item>
-      <ion-label style="height: 30%; font-size: 15px;"  position="floating" color="primary">Apellido de Usuario</ion-label>
+      <ion-label style="height: 30%; font-size: 15px;"  position="floating" color="primary">Apellido</ion-label>
       <ion-input [(ngModel)]="lastname" style="height: 30%; font-size: 15px;" type="text" formControlName="lastname"></ion-input>
     </ion-item> 
     <div class="validation-errors">
@@ -35,7 +35,7 @@
     </div>
 
     <ion-item>
-      <ion-label style="height: 30%; font-size: 15px;"  position="floating" color="primary">Telefono de Usuario</ion-label>
+      <ion-label style="height: 30%; font-size: 15px;"  position="floating" color="primary">Telefono</ion-label>
       <ion-input [(ngModel)]="phone" style="height: 30%; font-size: 15px;" type="text" formControlName="phone"></ion-input>
     </ion-item> 
     <div class="validation-errors">
@@ -61,9 +61,12 @@
             
     <ion-item>
       <ion-label style="height: 30%; font-size: 15px;"  position="floating" color="primary">Contraseña</ion-label>
-      <ion-input [(ngModel)]="password" style="height: 30%; font-size: 15px;" type="password" formControlName="password" class="form-controll" required></ion-input>
+      <ion-input [type]="passType" [(ngModel)]="password" style="height: 30%; font-size: 15px;" type="password" formControlName="password" class="form-controll" required>
+      </ion-input>
+      <ion-icon *ngIf="isDisabledPass" style="margin-top: auto; " (click)="showPassword()" slot="end" name="eye"></ion-icon>
+      <ion-icon *ngIf="!isDisabledPass" style="margin-top: auto; " (click)="hidePassword()"  slot="end" name="eye-off"></ion-icon>
+      
     </ion-item>
-
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.password">
         <div style="color: #eb445a;" class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
@@ -76,10 +79,16 @@
     <label class="error-message">{{errorMessage}}</label>
     <label class="success-message">{{successMessage}}</label>
   </form>
-  <ion-item (click)="goToLogin()">
-    
-  <a  >Iniciar sesión</a>
-  </ion-item>
+  <br>
+  <br>
   
+  <ion-button (click)="goToLogin()" expand="block" fill="solid" size="default" color="primary" style="font-family: 'Nunito Sans', sans-serif;">
+  
+    Iniciar Sesion
+  </ion-button>
+  <!--
+      <a style="text-align: center;" (click)="goToLogin()" >Iniciar sesión</a>
+
+  -->
 </ion-content>
 

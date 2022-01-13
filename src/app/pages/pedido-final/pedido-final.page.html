@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>pedido final</ion-title>
+    <ion-button (click)="salir()" fill="clear" slot="end">
+      <ion-icon slot="end" name="close-circle-outline"></ion-icon>
+
+      Cerrar</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h1 style="color: #4970F0; margin-left: 20px;">Detalle del pedido</h1>
+  <ion-grid class="ion-padding" *ngFor="let pedido of pedidos; let i=index" >
+    <ion-row style="border-bottom: 1px solid #4970F0; ">
+      <ion-col size="2">
+        <p>{{i+1}}</p>
+      </ion-col>
+      <ion-col size="5">
+        <p>{{pedido.nombre_pedido}}</p>
+      </ion-col>
+      <ion-col size="5">
+        <p style="text-align: right;">${{pedido.precio_pedido}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="ion-padding">
+    <ion-row>
+      <ion-col size="6">
+        <p style="font-size: 30px; color:#4970F0"><b>Total</b></p>
+      </ion-col>
+      <ion-col size="6">
+        <p style="font-size: 30px; text-align: right;">${{subtotalfinal}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="datos" *ngFor="let vendedor of vendedoreSelected">
+    <div class="direccion">
+      <p style="font-size: 20px; color: #4970F0"><b>Dirección</b></p>
+      <p>{{vendedor.direccion}}</p>
+    </div>
+    <div class="telefono">
+      <p style="font-size: 20px; color: #4970F0"><b>Telefono</b></p>
+      <p>{{vendedor.telefono}}</p>
+    </div>
+    <div class="correo">
+      <p style="font-size: 20px; color: #4970F0"><b>Correo</b></p>
+      <p>{{vendedor.email}}</p>
+    </div>
+  </div>
+</ion-content>

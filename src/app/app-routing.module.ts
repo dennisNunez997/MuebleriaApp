@@ -32,6 +32,22 @@ const routes: Routes = [
   {
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
+  },
+  {
+    path: 'list-vendedores',
+    loadChildren: () => import('./pages/list-vendedores/list-vendedores.module').then( m => m.ListVendedoresPageModule)
+  },
+  {
+    path: 'promocion',
+    loadChildren: () => import('./pages/promocion/promocion.module').then( m => m.PromocionPageModule)
+  },
+  {
+    path: 'pedido',
+    loadChildren: () => import('./pages/pedido/pedido.module').then( m => m.PedidoPageModule)
+  },
+  {
+    path: 'vendedor-modal',
+    loadChildren: () => import('./pages/vendedor-modal/vendedor-modal.module').then( m => m.VendedorModalPageModule)
   }
 ];
 

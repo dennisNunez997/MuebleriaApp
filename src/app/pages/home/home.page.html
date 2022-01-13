@@ -3,11 +3,149 @@
       <ion-buttons slot="start">
           <ion-menu-button (click)="toggleMenu()">
           </ion-menu-button>
-      </ion-buttons>
+      </ion-buttons>      
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-searchbar animated></ion-searchbar>
+<ion-content class="ion-padding">
+  <div (click)="modalSearch()" class="searchbar">
+    <ion-searchbar  disabled="true" animated (ionChange)="buscar( $event )"
+    ></ion-searchbar>
+  </div>
+  <div class="title">
+    <ion-text style="color:#2C33FF;">
+      <h2>Categorias</h2>
+    </ion-text>
+  </div>
+  <div style="width: 95%; margin-left: auto; margin-right: auto;" class="categoria">
+    
+    <!--
+      <ion-grid>
+      <ion-row size="1">
+        <ion-col>
+          <h2 style="text-align: start;">Categorias</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row size="2">
+        <ion-col>
+          <ion-grid >
+            <ion-row>
+              <ion-segment style="--overflow: hidden;" scrollable>
+                <ion-col>
+                  <div class="silla">
+                    <h3>Sillas</h3> 
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="mesa">
+                    <h3>Mesas</h3>
+                  </div>
+                </ion-col>
+                <ion-col>
+                  <div class="velador">
+                    <h3>Veladores</h3>
+                  </div>
+                </ion-col>             
+                
+                
+              </ion-segment>
+            </ion-row>
+          </ion-grid>
+        
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    -->
+    <div class="ruleta">
+      <ion-segment style="--overflow: hidden;" scrollable>
+        <ion-col>
+          <div (click)="showCategoria('silla')" class="sub_categoria">
+            <h3>Sillas</h3> 
+          </div>
+        </ion-col>
+        <ion-col>
+          <div (click)="showCategoria('mesa')" class="sub_categoria">
+            <h3>Mesas</h3>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div (click)="showCategoria('velador')" class="sub_categoria">
+            <h3>Veladores</h3>
+          </div>
+        </ion-col>        
+        
+      </ion-segment>
+    </div>
+      
+  </div>
+  
+  <div class="title">
+    <ion-text style="color:#2C33FF;" >
+      <h2>Empresas</h2>
+    </ion-text>
+  </div>
 
+  <div >
+    <ion-list style="border-radius: 18px;">
+      <ion-item *ngFor="let vendedor of vendedores | filtro: textoBuscar" >
+        <ion-grid (click)="showDetails(vendedor.uid_vendedor, vendedor.image_vendedor, vendedor.nombre_empresa)">
+          <ion-row>
+            <ion-col size="4">
+              <ion-avatar>
+                <img [src]="vendedor.image_vendedor">
+              </ion-avatar>
+            </ion-col>
+            <ion-col size="5">
+              <ion-text style="font-size: 15px; ">
+                <h5>{{vendedor.nombre_empresa}}</h5>
+                <p>{{vendedor.direccion_vendedor}}</p> 
+                
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      
+    </ion-list>
+  </div>
+
+
+  <!--
+  <div>
+    <ion-list>
+      <ion-item *ngFor="let producto of productos | filtro: textoBuscar  "  class="padding">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <img style="width: 100%; height: 100%;" [src]="producto.image_producto">
+            </ion-col>
+            <ion-col  size="6">
+              <p>
+                <b>Producto: </b>{{producto.nombre_producto}}
+                <br>
+                <b>Precio: </b>{{producto.precio_producto}} $
+                <br>
+                <b>Tienda: </b>{{producto.empresa_proveedor}}
+              </p>
+              <ion-button (click)="showDetails(producto.id_prod, producto.nombre_producto,
+                                                producto.descripcion_producto, producto.image_producto,
+                                                producto.precio_producto, producto.cantidad_producto,
+                                                producto.empresa_proveedor, producto.nombre_proveedor, 
+                                                producto.apellido_proveedor)" style="width: 95%; font-size: 80%;" shape="round">
+                <ion-icon  slot="start" name="information-circle"></ion-icon>
+                información
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      
+      </ion-item>
+    </ion-list>          
+  </div>
+  
+  -->
+  
+  
+  
+  
 </ion-content>

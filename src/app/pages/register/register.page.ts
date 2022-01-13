@@ -22,13 +22,17 @@ const { Camera } = Plugins
 })
 export class RegisterPage implements OnInit {
 
+  
+  isDisabledPass = true
+  passType = 'password'
+
   validations_form: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
   image: string;
   name: string;
   lastname: string;
-  phone: number;
+  phone: string;
   email: string;
   password: string;
 
@@ -47,7 +51,9 @@ export class RegisterPage implements OnInit {
     ],
     
     'phone': [
-      {type: 'required', message: 'Se requiere telefono de usuario'}
+      {type: 'required', message: 'Se requiere telefono de usuario'},
+      {type: 'maxlength', message: 'El número debe tener 10 digitos'},
+      
     ],
     'email': [
       { type: 'required', message: 'Se requiere email.' },
@@ -82,7 +88,7 @@ export class RegisterPage implements OnInit {
       ])),
       phone: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(10)
+        Validators.maxLength(10)
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -141,11 +147,32 @@ export class RegisterPage implements OnInit {
     await alert.present();
   }
 
+  async successRegister(){
+    const alert = await this.alertCtrl.create({
+      animated: true,
+      cssClass: 'success',
+      header: 'Cuenta creada exitosamente',
+      message: 'Inicie sesión para acceder a su cuenta',
+      buttons: ['OK']
+
+    })
+    await alert.present();
+  }
+
   goToLogin(){
     this.navCtrl.navigateForward('/login');
   }
 
 
+  showPassword(){
+    this.isDisabledPass = false;
+    this.passType = 'text'
+    
+  }
 
+  hidePassword(){ 
+    this.isDisabledPass = true;
+    this.passType = 'password'
+  }
 
 }

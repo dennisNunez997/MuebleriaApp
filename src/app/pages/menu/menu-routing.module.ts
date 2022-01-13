@@ -16,7 +16,20 @@ const routes: Routes = [
       {
         path: "profile",
         loadChildren:() => import("../profile/profile.module").then(m => m.ProfilePageModule)
+      },
+      {
+        path: "list-vendedores",
+        loadChildren:() => import("../list-vendedores/list-vendedores.module").then(m => m.ListVendedoresPageModule)
+      },
+      {
+        path: "promocion",
+        loadChildren:() => import("../promocion/promocion.module").then(m => m.PromocionPageModule)
+      },
+      {
+        path: "pedido",
+        loadChildren:() => import("../pedido/pedido.module").then(m => m.PedidoPageModule)
       }
+      
     ]
   }
 ];

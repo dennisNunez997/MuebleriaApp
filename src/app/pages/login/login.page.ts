@@ -22,6 +22,8 @@ export class LoginPage implements OnInit {
   
   }
 
+  isDisabledPass = true
+  passType = 'password'
 
 
   constructor(
@@ -70,5 +72,14 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward("/register")
   }
 
+  showPassword(){
+    this.isDisabledPass = false;
+    this.passType = 'text'
+    
+  }
 
+  hidePassword(){ 
+    this.isDisabledPass = true;
+    this.passType = 'password'
+  }
 }
