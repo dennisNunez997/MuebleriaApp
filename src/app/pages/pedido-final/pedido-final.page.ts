@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ProductoService } from 'src/app/services/producto.service';
 import { VendedorService } from 'src/app/services/vendedor.service';
+import { alertController } from '@ionic/core';
 
 import { EmpresaSelectedPage } from '../empresa-selected/empresa-selected.page';
 @Component({
@@ -25,15 +26,15 @@ export class PedidoFinalPage implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private prodServ: ProductoService,
-    private vendedorServ: VendedorService
+    private vendedorServ: VendedorService,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
-    this.showPedidoFinal()  
     this.showEmpresa()
-    this.subTotalFinal()
   }
 
+  /*   
   async subTotalFinal(){
     this.prodServ.getPedidoFinal().subscribe(data => {
       data.map(item => {
@@ -48,6 +49,8 @@ export class PedidoFinalPage implements OnInit {
       })
     })
   }
+  */
+  
 
   showEmpresa(){
     this.vendedorServ.getVendedor().subscribe(
@@ -62,11 +65,13 @@ export class PedidoFinalPage implements OnInit {
           console.log("empresa a: "+item.nombre_empresa+" empresa b: "+this.nombre_empresa)
           if(item.nombre_empresa === this.nombre_empresa){
             this.vendedoreSelected.push({
+              apellido: item.apellido_vendedor,
+              nombre: item.nombre_vendedor,
               direccion: item.direccion_vendedor,
               email: item.email_vendedor,
               telefono: item.telefono_vendedor,
               imagen: item.image_vendedor,
-              nombre: item.nombre_empresa
+              empresa: item.nombre_empresa
             })
           }
         })
@@ -74,7 +79,40 @@ export class PedidoFinalPage implements OnInit {
     )
   }
 
-  showPedidoFinal(){
+  async mail(mail){
+    const alert = await this.alertCtrl.create({
+      cssClass: 'success',
+      subHeader: 'Correo',
+      message: mail,
+      buttons: ['Aceptar']
+      
+    })
+    await alert.present(); 
+  }
+
+  async telefono(telefono){
+    const alert = await this.alertCtrl.create({
+      cssClass: 'success',
+      subHeader: 'Teléfono',
+      message: telefono,
+      buttons: ['Aceptar']
+      
+    })
+    await alert.present(); 
+  }
+  async direccion(direccion){
+    const alert = await this.alertCtrl.create({
+      cssClass: 'success',
+      subHeader: 'Dirección',
+      message: direccion,
+      buttons: ['Aceptar']
+      
+    })
+    await alert.present(); 
+  }
+
+  /*
+    showPedidoFinal(){
     
     this.prodServ.getPedidoFinal().subscribe(data => {
       data.map((item) => {
@@ -96,6 +134,9 @@ export class PedidoFinalPage implements OnInit {
       })
     })
   }
+  */
+
+  
   async salir(){
     this.modalCtrl.dismiss()
   }

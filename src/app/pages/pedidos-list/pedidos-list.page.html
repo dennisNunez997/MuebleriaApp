@@ -4,14 +4,13 @@
     </ion-title>
     <ion-button (click)="salir()" fill="clear" slot="end">
       <ion-icon slot="end" name="close-circle-outline"></ion-icon>
-
-      Cerrar</ion-button>
+      </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="content">
-    <div class="main" *ngFor="let pedido of pedidos">
+    <div class="main" *ngFor="let pedido of pedidos_duplicados">
       <div class="div1">
         <img class="image_prod" [src]="pedido.imagen">
       </div>

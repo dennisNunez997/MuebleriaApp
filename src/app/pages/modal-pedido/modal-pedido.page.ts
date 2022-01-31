@@ -22,7 +22,9 @@ export class ModalPedidoPage implements OnInit {
   @Input() nombre_empresa;
 
   isDisabled = false;
-  pedido: number = 0;
+  isDisabled_resta = false;
+  isDisabled_suma = false;
+  pedido: number = 1;
   total_prod:number = 0;
   user_id: string;
 
@@ -37,11 +39,14 @@ export class ModalPedidoPage implements OnInit {
   ngOnInit() {
     this.auth.onAuthStateChanged(user => {
       this.user_id = user.uid
+      this.total_prod = this.pedido * this.precio
     })
   }
 
+  
+
   suma(){
-    let stock = 0;
+    let stock = 1;
     stock = this.cantidad - this.pedido;
     //console.log("stock: "+stock)
     this.pedido = this.pedido + 1
@@ -59,23 +64,30 @@ export class ModalPedidoPage implements OnInit {
   }
 
   resta(){
-    let stock = 0;
-    this.pedido = this.pedido - 1
+    let stock = 1;
+    this.pedido = this.pedido - 1    
+    this.total_prod = this.pedido * this.precio
     //console.log("decremento: "+this.pedido)
     stock = this.cantidad - this.pedido
     if((this.pedido -1 ) <= 0){
       console.log("error")
       this.emptyStock()
-      this.isDisabled = true;
+      this.isDisabled_resta = true;
       this.pedido = 0
     }
   }
   
   async contactoEmpresa(id_usuario, nombre_producto, precio, cantidad, imagen, subtotal){
     //console.log("cantidad: "+cantidad)
-    console.log("id: "+id_usuario)
+    //console.log("id: "+id_usuario)
     this.prodServ.addeditPedidos(id_usuario, this.nombre_empresa ,this.id, this.categoria_prod, nombre_producto,precio, cantidad, imagen, subtotal)
-    const modal = await this.modalCrtl.create({
+          
+    
+    this.pedido_guardado()
+    this.modalCrtl.dismiss()
+    
+    /*
+     const modal = await this.modalCrtl.create({
       component: PedidosListPage,
       componentProps: {
         id_prod: this.id,
@@ -90,6 +102,19 @@ export class ModalPedidoPage implements OnInit {
       }
     })
     await modal.present();
+
+    */
+    
+  }
+
+  async pedido_guardado() {
+    const alert = await this.alertCtrl.create({
+      header: 'Pedido guardado',
+      message: 'Producto añadido al pedido.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 

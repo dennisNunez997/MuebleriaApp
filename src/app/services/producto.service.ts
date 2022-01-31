@@ -57,13 +57,14 @@ export class ProductoService {
       imagen_pedido: imagen,
       id_prod: id_prod,
       subtotal: subtotal,
-      imagen_empresa: imagen_empresa
+      imagen_empresa: imagen_empresa,
+      fecha_pedido: Date.now()
     })
   }
   addeditPedidos(id_usuario: string,nombre_empresa: string, id: string, categoria: string, nombre: string, precio: number, cantidad: number, imagen: string, subtotal: number){
     const prepedido = this.afs.database.ref('/prepedido/')
     const id_prepedido = prepedido.push().key
-    console.log("empresa_pedido: "+nombre_empresa)
+    console.log("empresa_pedido: "+nombre_empresa) 
     this.afs.object('prepedido/'+id_prepedido).set({
       id_prepedido: id_prepedido,
       id_prod: id,
@@ -75,7 +76,42 @@ export class ProductoService {
       cantidad_pedido: cantidad,
       imagen_pedido: imagen,
       subtotal: subtotal 
-    })  
+    })    
+    /*
+      this.prepedidoList = this.afs.list('/prepedido/')    
+    this.prepedidoList.snapshotChanges().pipe(
+      map(changes => 
+        changes.map(c => ({
+          key: c.payload,
+          ...c.payload.val()
+        }))  
+      )
+    ).subscribe(
+      data => {
+        data.map((item => {
+          if(item.nombre_pedido === nombre){
+            console.log("pedido repetido")
+            this.afs.database.ref('/prepedido/'+id_prepedido).remove()
+          }else{
+            console.log("pedido guardado")
+            this.afs.object('prepedido/'+id_prepedido).set({
+              id_prepedido: id_prepedido,
+              id_prod: id,
+              id_usuario: id_usuario,
+              empresa: nombre_empresa,
+              categoria_pedido: categoria,
+              nombre_pedido: nombre,
+              precio_pedido: precio / cantidad,
+              cantidad_pedido: cantidad,
+              imagen_pedido: imagen,
+              subtotal: subtotal 
+            })  
+          }
+        }))
+      }
+    )
+    */
+    
   }
 
 

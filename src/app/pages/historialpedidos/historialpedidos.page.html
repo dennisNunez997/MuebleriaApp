@@ -8,22 +8,25 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid style="width: 95%; margin-left: auto; margin-right: auto;" class="pedidos" *ngFor="let pedido of pedidos; let i=index">
-    <ion-row style="border-bottom: 1px solid #4970F0; ">
-      <ion-col size="1">
-        <p>{{i+1}}</p>
-      </ion-col>
-      <ion-col size="5">
-        <p>{{pedido.nombre_pedido}}</p>
-      </ion-col>
-      <ion-col size="3">
-        <p>{{pedido.cantidad_pedido}}</p>
-      </ion-col>
-      <ion-col size="3">
-        <p>${{pedido.precio_pedido}}</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div style= "height: 300px;">
+    <ion-grid style="margin-left: auto; margin-right: auto;" class="pedidos" *ngFor="let pedido of pedidos; let i=index">
+      <ion-row style="border-bottom: 1px solid #4970F0; ">
+        <ion-col size="1">
+          <p>{{i+1}}</p>
+        </ion-col>
+        <ion-col size="5">
+          <p>{{pedido.nombre_pedido}}</p>
+        </ion-col>
+        <ion-col size="3">
+          <p>{{pedido.cantidad_pedido}}</p>
+        </ion-col>
+        <ion-col size="3">
+          <p>${{pedido.precio_pedido}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  
+  </div>
 
   <div class="subtotal">
     <div class="titulo">
@@ -36,6 +39,36 @@
     </div>
   </div>
 
+  
+  <div class="informacion" >
+    <div>
+      <p style="text-align: center; color:#4970F0; margin-left: 10px; font-size: 20px; font-weight: bold;">Información de la empresa</p>
+    </div>
+    <div class="detalle">
+      <div>
+        <p style="color:#4970F0; margin-left: 10px; font-size: 20px;">Dirección</p>
+      </div>
+      <div>
+        <p style="text-align: center; font-size: 20px;">{{direccion}}</p>
+      </div>
+    </div>
+    <div class="detalle">
+      <div>
+        <p style="color:#4970F0; margin-left: 10px; font-size: 20px;">Teléfono</p>
+      </div>
+      <div>
+        <p style="text-align: center; font-size: 20px;">{{telefono}}</p>
+      </div>
+    </div>
+    <div class="detalle">
+      <div>
+        <p style="color: #4970F0; margin-left: 10px; font-size: 20px;">Correo Electrónico</p>
+      </div>
+      <div>
+        <p style="text-align: center; font-size: 15px; margin-top: 30px;">{{email}}</p>
+      </div>
+    </div>
+  </div>
 
 
 </ion-content>

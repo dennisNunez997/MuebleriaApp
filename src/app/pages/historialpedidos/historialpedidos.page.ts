@@ -18,6 +18,10 @@ export class HistorialpedidosPage implements OnInit {
 
   subtotalfinal = null;
 
+  direccion: string;
+  telefono: string;
+  email: string;
+
   constructor(
     private modalCtrl: ModalController,
     private vendedorServ: VendedorService,
@@ -27,6 +31,7 @@ export class HistorialpedidosPage implements OnInit {
   ngOnInit() {
     this.showPedidoFinal()
     this.subTotalFinal()
+    this.showEmpresa()
   }
 
   subTotalFinal(){
@@ -36,7 +41,7 @@ export class HistorialpedidosPage implements OnInit {
           let subtotal = parseFloat(item.subtotal)
           this.subtotalArray.push(subtotal)
           this.subtotalfinal = this.subtotalArray.reduce((a,b) => a+b, 0)
-          console.log("subtotal final: "+this.subTotalFinal)
+          //console.log("subtotal final: "+this.subTotalFinal)
         }
       })
     })
@@ -52,15 +57,14 @@ export class HistorialpedidosPage implements OnInit {
           }
         })
         this.vendedores.map(item => {
-          //console.log("empresa a: "+item.nombre_empresa+" empresa b: "+this.nombre_empresa)
+           
           if(item.nombre_empresa === this.nombre_empresa){
-            this.vendedoreSelected.push({
-              direccion: item.direccion_vendedor,
-              email: item.email_vendedor,
-              telefono: item.telefono_vendedor,
-              imagen: item.image_vendedor,
-              nombre: item.nombre_empresa
-            })
+            this.direccion = item.direccion_vendedor
+            this.telefono = item.telefono_vendedor
+            this.email = item.email_vendedor
+            console.log("direccion: "+this.direccion)
+            console.log("telefono: "+this.telefono)
+            console.log("email: "+this.email)
           }
         })
       }

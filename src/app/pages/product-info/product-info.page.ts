@@ -37,7 +37,10 @@ export class ProductInfoPage implements OnInit {
   productsFiltered = [];
   categoriaFiltered: boolean;
   selection: boolean;
+  mainProds: boolean = false;
+
   prepedidoIsEmpty: boolean = true;
+
   textoBuscarProd='';
 
   prepedido = [];
@@ -49,6 +52,7 @@ export class ProductInfoPage implements OnInit {
   //categorias
   @Input() nombre_categoria;
   categorySelected = [];
+  listProd = [];
 
   constructor(
     private modalCtrl: ModalController,
@@ -61,8 +65,28 @@ export class ProductInfoPage implements OnInit {
     this.showCategorias();
     this.CategorySelected();
     this.showPrepedido()
+    this.showProducts()
   }
   
+  showProducts(){
+    this.prodServ.getProduct().subscribe(data => {
+      data.map((item => {
+        if((item.empresa_proveedor === this.nom_empresa)){
+          this.listProd.push({
+            nombre_producto: item.nombre_producto,
+            descripcion: item.descripcion_producto,
+            categoria_producto: item.categoria_producto,
+            empresa: item.empresa_proveedor,
+            precio: item.precio_producto,
+            imagen: item.image_producto,
+            cantidad: item.cantidad_producto,
+            uid: item.uid_user,
+            id: item.id_prod  
+          })
+        }
+      }))
+    })
+  }
 
 
   showPrepedido(){
@@ -126,7 +150,8 @@ export class ProductInfoPage implements OnInit {
   }
 
   listByCategory(nombre){
-    
+    this.categoriaFiltered = true;
+    this.mainProds = true
     this.productsFiltered = [];
     console.log("categoria: "+nombre)
     this.prodServ.getProduct().subscribe(data => {
