@@ -221,17 +221,9 @@ export class PedidosListPage implements OnInit {
   }
 
   salir(){
-    /*
-    this.productService.geteditPedidos().subscribe(data =>{
-      data.map((item) => {
-        if(item.empresa === this.empresa_prepedido){
-          this.productService.deleteprepedidos(item.id_prepedido)
-        }
-      })
-    })
     this.modalCtrl.dismiss() 
-    */
-    this.exitAlert()
+    
+    //this.exitAlert()
   }
   async exitAlert(){
     const alert = await this.alertCtrl.create({
@@ -264,8 +256,6 @@ export class PedidosListPage implements OnInit {
     })
     await alert.present();
   }
-  cancel(){
-    this.modalCtrl.dismiss()
-  }
+  
 
 }

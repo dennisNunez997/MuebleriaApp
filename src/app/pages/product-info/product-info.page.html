@@ -3,8 +3,7 @@
     <ion-title>{{nom_empresa}}</ion-title>
     <ion-button (click)="salir()" fill="clear" slot="end">
       <ion-icon slot="end" name="close-circle-outline"></ion-icon>
-
-      Cerrar</ion-button>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -15,8 +14,8 @@
     </div>
     <div style="width: 98%; margin-left: auto; margin-right: auto;">
       <ion-segment  style="--overflow: hidden;" scrollable>
-        <ion-col *ngFor="let cat of categoria" >
-          <ion-button (click)="listByCategory(cat.categoria)" fill="solid" color="primary" shape="round">
+        <ion-col *ngFor="let cat of categoria_duplicada" >
+          <ion-button style="width: 130px;" (click)="listByCategory(cat.categoria)" fill="solid" color="primary" shape="round">
             {{cat.categoria}}
           </ion-button>
         </ion-col>
@@ -50,7 +49,8 @@
     -->
 
     <div>
-      <div [hidden]="categoriaFiltered" id="element" class="main2" *ngFor="let p of categorySelected">
+      
+        <div [hidden]="categoriaFiltered" id="element" class="main2" *ngFor="let p of categorySelected | filtroProd: textoBuscarProd">
       
         <div class="card_prod">
           <div class="div1">
@@ -71,7 +71,9 @@
         </div>
         
       </div>
-      <div [hidden]="mainProds" class="main" *ngFor="let prod of listProd">
+    
+      
+      <div [hidden]="mainProds" class="main" *ngFor="let prod of listProd | filtroProd: textoBuscarProd">
         <div (click)="modalPedido(prod.empresa, prod.id, prod.nombre_producto, prod.empresa, prod.descripcion, prod.categoria_producto, prod.cantidad, prod.precio, prod.id, prod.imagen)" class="card_prod">
           <div class="div1">
             <p style="color: #3880ff"><b>{{prod.nombre_producto}}</b></p>
@@ -196,7 +198,7 @@
   </div>
 
   <div class="pedido" (click)="goToPedidoList()" [hidden]="prepedidoIsEmpty" class="pedido">
-    <button>
+    <button class="pedido-button">
       pedidos
     </button>  
   </div>

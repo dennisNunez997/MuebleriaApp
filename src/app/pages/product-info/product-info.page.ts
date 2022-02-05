@@ -4,7 +4,6 @@ import { AlertController } from '@ionic/angular';
 import { ProductoService } from 'src/app/services/producto.service'; 
 import { ModalPedidoPage } from '../modal-pedido/modal-pedido.page';
 import { PedidosListPage } from '../pedidos-list/pedidos-list.page';
-
 @Component({
   selector: 'app-product-info',
   templateUrl: './product-info.page.html',
@@ -35,7 +34,9 @@ export class ProductInfoPage implements OnInit {
   productos = [];
   categoria = [];
   productsFiltered = [];
+  categoria_duplicada = [];
   categoriaFiltered: boolean;
+
   selection: boolean;
   mainProds: boolean = false;
 
@@ -98,7 +99,6 @@ export class ProductInfoPage implements OnInit {
             
           })
           if(this.prepedido.length){
-            console.log("arreglo vacio")
             this.prepedidoIsEmpty = false;
           }
           
@@ -156,7 +156,7 @@ export class ProductInfoPage implements OnInit {
     console.log("categoria: "+nombre)
     this.prodServ.getProduct().subscribe(data => {
       data.map((item) => {
-        if((item.categoria_producto === nombre) && (item.uid_user === this.id)){
+        if(((item.categoria_producto === nombre) && (item.uid_user === this.id))){
           console.log("nombre: "+item.nombre_producto+" empresa: "+item.empresa_proveedor) 
           this.productsFiltered.push({
             nombre_producto: item.nombre_producto,
@@ -178,7 +178,26 @@ export class ProductInfoPage implements OnInit {
   }
 
   showCategorias(){
-    this.prodServ.getCategory().subscribe(data => {
+    this.prodServ.getProduct().subscribe(data => {
+      data.map((item) => {
+        if(this.nom_empresa === item.empresa_proveedor){
+          //console.log("nueva lista de categorias: "+item.categoria_producto)
+          
+          this.categoria.push({
+            categoria: item.categoria_producto
+          })   
+             
+          this.categoria_duplicada = Array.from(this.categoria.reduce((map, obj) => map.set(obj.categoria, obj), new Map()).values())
+          this.categoria_duplicada.map((data => {
+            console.log("nueva categoria: "+data.categoria)
+          }))
+        }
+        
+      })
+    })
+
+    /*
+      this.prodServ.getCategory().subscribe(data => {
       data.map((item) => {
         this.categoria.push({
           id: item.id_categoria,
@@ -187,6 +206,8 @@ export class ProductInfoPage implements OnInit {
       })
     })
 
+    */
+    
   }
 
 
@@ -326,9 +347,42 @@ export class ProductInfoPage implements OnInit {
   
   */
 
+  exit(){
+    
+    
+  }
 
-  salir(){
-    this.modalCtrl.dismiss();
+  async salir(){
+    const alert = await this.alertController.create({
+      animated: true,
+      cssClass: 'alert',
+      header: '¿Seguro que desea salir?',
+      message: 'Al salir su pedido se eliminará',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Ok',
+          role: 'ok',
+          handler: () => {
+            this.prodServ.geteditPedidos().subscribe(data =>{
+              data.map((item) => {
+                if(item.empresa === this.nom_empresa){
+                  this.prodServ.deleteprepedidos(item.id_prepedido)
+                }
+              })
+            })
+            this.modalCtrl.dismiss()
+          }
+        }
+        
+      ]
+
+    })
+    await alert.present();
+    //this.modalCtrl.dismiss();
   }
   
   

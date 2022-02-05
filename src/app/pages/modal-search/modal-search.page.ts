@@ -27,7 +27,8 @@ export class ModalSearchPage implements OnInit {
   itemRef: AngularFireList<any>;
   item: Observable<any[]>;
   data: Observable<any[]>;
-
+  resultadosHidden: boolean = true;
+  
   categorias = []
   busqueda =[];
   productos = [];
@@ -65,6 +66,7 @@ export class ModalSearchPage implements OnInit {
   }
 
   buscarProducto(event){
+    this.resultadosHidden = false;
     this.textoBuscarProd = event.detail.value;
 
   }
