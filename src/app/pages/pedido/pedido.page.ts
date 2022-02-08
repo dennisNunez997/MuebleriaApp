@@ -4,6 +4,7 @@ import { VendedorService } from 'src/app/services/vendedor.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { MenuController, ModalController } from '@ionic/angular';
 import { HistorialpedidosPage } from '../historialpedidos/historialpedidos.page';
+import { AngularFireList, AngularFireDatabase } from '@angular/fire/compat/database';
 @Component({
   selector: 'app-pedido',
   templateUrl: './pedido.page.html',
@@ -15,7 +16,16 @@ export class PedidoPage implements OnInit {
   pedidos = []
   duplicados = []
   duplicado_vendedores = []
+
+  //pedidos
+  pedidosFltr: any[];
+  pedidosAngularList: AngularFireList<any>
+  filtrpedidos: any[];
+
+  pedidos_duplicados= [];
+
   constructor(
+    private afs: AngularFireDatabase,
     private productServ: ProductoService,
     private VendedorServ: VendedorService,
     private auth: AngularFireAuth,
@@ -30,8 +40,28 @@ export class PedidoPage implements OnInit {
     })
   }
 
+  
   showEmpresa(id_user){
-    this.productServ.getPedidoFinal().subscribe(data => {
+    this.pedidosAngularList = this.afs.list('pedido_final/')
+    this.pedidosAngularList.snapshotChanges().subscribe(
+      list => {
+        this.pedidosFltr = list.map(item => {
+          return{
+            $key: item.key,
+            ...item.payload.val()
+          }
+        })
+        this.filtrpedidos = this.pedidosFltr.filter(value => value.id_usuario === id_user)
+        this.pedidos_duplicados = Array.from(this.filtrpedidos.reduce((map, obj) => map.set(obj.fecha_pedido, obj), new Map()).values())
+        this.pedidos_duplicados.map(dta => {
+          console.log("fecha; "+dta.empresa_pedido)
+        })
+      }
+
+    )
+
+    /*
+      this.productServ.getPedidoFinal().subscribe(data => {
       data.map((item) => {
         if(id_user === item.id_usuario){
           this.pedidos.push({
@@ -46,11 +76,16 @@ export class PedidoPage implements OnInit {
         }
       })
     })
+    */
+
+    
     
   }
 
   
   pedidoFinal(id_user){
+
+
     this.productServ.getPedidoFinal().subscribe(data => {
       data.map((item) => {
         if(id_user === item.id_usuario){

@@ -50,105 +50,69 @@
 
     <div>
       
-        <div [hidden]="categoriaFiltered" id="element" class="main2" *ngFor="let p of categorySelected | filtroProd: textoBuscarProd">
+      <div [hidden]="categoriaFiltered" id="element" class="main2" *ngFor="let p of filtrprodsCategorySlectedExist | filtroProd: textoBuscarProd">
       
-        <div class="card_prod">
+        <div (click)="modalPedido(p.empresa_proveedor, p.id_prod, p.nombre_producto, p.empresa_proveedor, p.descripcion_producto, p.categoria_producto, p.cantidad_producto, p.precio_producto, p.image_producto)" class="card_prod">
           <div class="div1">
             <p style="color: #3880ff"><b>{{p.nombre_producto}}</b></p>
           </div>
           <div class="div2">
-            <img class="img_prod" [src]="p.imagen">
+            <img class="img_prod" [src]="p.image_producto">
           </div>
           <div class="div3">
             <ion-text color="primary">
-              <p style="color: #3880ff;">{{p.descripcion}}</p>
+              <p style="color: #3880ff;">{{p.descripcion_producto}}</p>
             </ion-text>
             <p style="opacity: 0.5;">{{p.categoria_producto}}</p>
           </div>
           <div class="div4">
-            <p style="color: #28ba62"><b>{{p.precio}} $</b></p>
+            <p style="color: #28ba62"><b>{{p.precio_producto}} $</b></p>
           </div>
         </div>
         
       </div>
     
       
-      <div [hidden]="mainProds" class="main" *ngFor="let prod of listProd | filtroProd: textoBuscarProd">
-        <div (click)="modalPedido(prod.empresa, prod.id, prod.nombre_producto, prod.empresa, prod.descripcion, prod.categoria_producto, prod.cantidad, prod.precio, prod.id, prod.imagen)" class="card_prod">
+      <div [hidden]="mainProds" class="main" *ngFor="let prod of filtrlistprodExist | filtroProd: textoBuscarProd">
+        <div (click)="modalPedido(prod.empresa_proveedor, prod.id_prod, prod.nombre_producto, prod.empresa_proveedor, prod.descripcion_producto, prod.categoria_producto, prod.cantidad_producto, prod.precio_producto, prod.image_producto)" class="card_prod">
           <div class="div1">
             <p style="color: #3880ff"><b>{{prod.nombre_producto}}</b></p>
           </div>
           <div class="div2">
-            <img class="img_prod" [src]="prod.imagen">
+            <img class="img_prod" [src]="prod.image_producto">
           </div>
           <div class="div3">
             <ion-text color="primary">
-              <p style="color: #3880ff;">{{prod.descripcion}}</p>
+              <p style="color: #3880ff;">{{prod.descripcion_producto}}</p>
             </ion-text>
             <p style="opacity: 0.5;">{{prod.categoria_producto}}</p>
           </div>
           <div class="div4">
-            <p style="color: #28ba62"><b>{{prod.precio}} $</b></p>
+            <p style="color: #28ba62"><b>{{prod.precio_producto}} $</b></p>
           </div>
         </div>  
       </div>
-      <div class="main" *ngFor="let producto of productsFiltered | filtroProd: textoBuscarProd">
-        <div (click)="modalPedido(producto.empresa, producto.id, producto.nombre_producto, producto.empresa, producto.descripcion, producto.categoria_producto, producto.cantidad, producto.precio, producto.id, producto.imagen)" class="card_prod">
+      <div [hidden]="selection" class="main" *ngFor="let producto of filtrprodsCategoryExist | filtroProd: textoBuscarProd">
+        <div (click)="modalPedido(producto.empresa_proveedor, producto.id_prod, producto.nombre_producto, producto.empresa_proveedor, producto.descripcion_producto, producto.categoria_producto, producto.cantidad_producto, producto.precio_producto, producto.image_producto)" class="card_prod">
           <div class="div1">
             <p style="color: #3880ff"><b>{{producto.nombre_producto}}</b></p>
           </div>
           <div class="div2">
-            <img class="img_prod" [src]="producto.imagen">
+            <img class="img_prod" [src]="producto.image_producto">
           </div>
           <div class="div3">
             <ion-text color="primary">
-              <p style="color: #3880ff;">{{producto.descripcion}}</p>
+              <p style="color: #3880ff;">{{producto.descripcion_producto}}</p>
             </ion-text>
             <p style="opacity: 0.5;">{{producto.categoria_producto}}</p>
           </div>
           <div class="div4">
-            <p style="color: #28ba62"><b>{{producto.precio}} $</b></p>
+            <p style="color: #28ba62"><b>{{producto.precio_producto}} $</b></p>
           </div>
         </div>   
         
       </div>  
-    </div>
-
-     
-    
-    
-    
-  <!--
-      <ion-grid>
-      <ion-row>
-        <ion-col size="6" *ngFor="let producto of productos">
-          <ion-card style="margin-left: auto; margin-right: auto; height: 300px; width: 95%;">
-            <img style="width: 100%; height: 140px;" [src]="producto.imagen">
-            
-            <div style="height: 100px; width: 90%; margin-left: auto; margin-right: auto;">
-              <ion-text color="secondary">
-                <p style="font-size: 20px;">{{producto.nombre}}</p>              
-              </ion-text>
-              <ion-text color="success">
-                <p style="font-size: 20px;">{{producto.precio}} $</p>
-              </ion-text>
-            </div>  
-            <div style="width: 90%; margin-left: auto; margin-right: auto;">
-              <ion-button  expand="full" size="small" shape="round">
-                <ion-icon slot="start" name="cart"></ion-icon>
-                Comprar
-              </ion-button>
-            </div>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    
-    -->
-    
-    
-    
-    
+    </div>    
     
     <!--
       <ion-list>    

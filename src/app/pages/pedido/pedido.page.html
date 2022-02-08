@@ -9,14 +9,17 @@
 </ion-header>
 
 <ion-content >
-  <div *ngFor="let vendedor of duplicados">
+  <div *ngFor="let vendedor of pedidos_duplicados">
     <div (click)="getListpedidos(vendedor.empresa)" class="empresa" >
       <div  class="imagen">
-        <img [src]="vendedor.imagen">
+        <img [src]="vendedor.imagen_empresa">
       </div>
       <div class="nombre">
-        <p>{{vendedor.empresa}}</p>
+        <p>{{vendedor.empresa_pedido}}</p>
       </div>    
+      <div class="fecha">
+        <p>{{vendedor.fecha_pedido}}</p>
+      </div>
     </div>  
   </div>
   

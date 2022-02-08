@@ -12,25 +12,25 @@
   <div class="content">
     <div class="main" *ngFor="let pedido of pedidos_duplicados">
       <div class="div1">
-        <img class="image_prod" [src]="pedido.imagen">
+        <img class="image_prod" [src]="pedido.imagen_pedido">
       </div>
       <div class="div2">
         <p style="color: #3880ff;">{{pedido.nombre_pedido}}</p>
-        <p style="color: #3880ff;">{{pedido.precio}}</p>
+        <p style="color: #3880ff;">{{pedido.subtotal}}</p>
       </div>
       <div class="div3">
         <div class="button1">
-          <button (click)="suma(pedido.id, pedido.cantidad, pedido.categoria, pedido.empresa, pedido.id_prod, pedido.imagen, pedido.nombre_pedido, pedido.precio)" class="btnplus">+</button>
+          <button (click)="suma(pedido.id_prepedido, pedido.cantidad_pedido, pedido.categoria_pedido, pedido.empresa, pedido.id_prod, pedido.imagen_pedido, pedido.nombre_pedido, pedido.subtotal)" class="btnplus">+</button>
         </div>
         <div class="value">
-          <p style="color: #3880ff;" id="valor">{{pedido.cantidad}}</p>      
+          <p style="color: #3880ff;" id="valor">{{pedido.cantidad_pedido}}</p>      
         </div>
         <div class="button2">
           <button (click)="resta(pedido.id, pedido.cantidad, pedido.categoria, pedido.empresa, pedido.id_prod, pedido.imagen, pedido.nombre_pedido, pedido.precio)" class="btnless">-</button>
         </div>
       </div> 
       <div class="div4">
-        <button shape="round" (click)="delete(pedido.id)" class="delete">
+        <button shape="round" (click)="delete(pedido.id_prepedido)" class="delete">
           <ion-icon name="trash"></ion-icon>
         </button>
       </div>   
@@ -44,11 +44,16 @@
         <h1 style="color: #3880ff; text-align: right;"><b>${{sub_TotalFinal}}</b></h1>
       </div>
     </div>
+    <div class="confirmar">
+      <ion-button expand="block" shape="round" style="height: 40px;" (click)="guardarPedidos()" >
+        Confirmar Pedido
+      </ion-button>
+      <br>
+      <ion-button expand="block" shape="round" style="height: 40px;" (click)="seguirComprando()">
+        Seguir comprando
+      </ion-button>
+    </div>
   </div>
   
-  <div class="confirmar">
-    <ion-button expand="block"  (click)="guardarPedidos(user_id, nombre_empresa_pedido, sub_TotalFinal)" shape="round" size="large">
-      Confirmar Pedido
-    </ion-button>
-  </div>
+  
 </ion-content>

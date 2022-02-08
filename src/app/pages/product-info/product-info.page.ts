@@ -4,6 +4,9 @@ import { AlertController } from '@ionic/angular';
 import { ProductoService } from 'src/app/services/producto.service'; 
 import { ModalPedidoPage } from '../modal-pedido/modal-pedido.page';
 import { PedidosListPage } from '../pedidos-list/pedidos-list.page';
+import {AngularFireDatabase, AngularFireList, snapshotChanges} from '@angular/fire/compat/database'
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 @Component({
   selector: 'app-product-info',
   templateUrl: './product-info.page.html',
@@ -46,6 +49,20 @@ export class ProductInfoPage implements OnInit {
 
   prepedido = [];
 
+  //ejemplo
+  prodFiltr: any[];
+  productsAngularList: AngularFireList<any>
+  filtrprod: any[];
+
+  //prepedidos
+  prepedidosFiltr: any[];
+  prepedidosAngularList: AngularFireList<any>
+  filtrPrepedidos: any[];
+
+  prepedidosFiltrExist: any[];
+  prepedidosExistAngularList: AngularFireList<any>
+  filtrPrepedidosExist: any[];
+
   @Input() id;
   @Input() img_empresa;
   @Input() nom_empresa;
@@ -55,10 +72,35 @@ export class ProductInfoPage implements OnInit {
   categorySelected = [];
   listProd = [];
 
+  //observador
+  observador: boolean = true;
+
+  //listprod = showproduct
+  listprodFiltrExist: any[];
+  listprodExistAngularList: AngularFireList<any>
+  filtrlistprodExist: any[];
+
+  //categorias botones
+  prodsCategoryFiltrExist: any[];
+  prodsCategoryExistAngularList: AngularFireList<any>
+  filtrprodsCategoryExist: any[];
+
+  //categorySelected from searchbar
+  CategorySlectedFiltrExist: any[];
+  CategorySlectedExistAngularList: AngularFireList<any>
+  filtrprodsCategorySlectedExist: any[];
+  
+
+
+
+  productosList: AngularFireList<any>
+
   constructor(
     private modalCtrl: ModalController,
     public alertController: AlertController,
-    private prodServ: ProductoService
+    private prodServ: ProductoService,
+    private afs: AngularFireDatabase,
+    private auth: AngularFireAuth
   ) { }
 
   ngOnInit() {
@@ -67,31 +109,105 @@ export class ProductInfoPage implements OnInit {
     this.CategorySelected();
     this.showPrepedido()
     this.showProducts()
+    this.productsFilterArray()
+    this.prepedidosExist()
+  }
+
+  prepedidosExist(){
+    this.auth.onAuthStateChanged(user => {
+      console.log("uid: "+user.uid)
+      this.prepedidosExistAngularList = this.afs.list('prepedido/')
+      this.prepedidosExistAngularList.snapshotChanges().subscribe(
+        list => {
+          this.prepedidosFiltrExist = list.map(item => {
+            return{
+              $key: item.key,
+              ...item.payload.val()
+            }
+          })
+          this.filtrPrepedidosExist = this.prepedidosFiltrExist.filter(value =>  value.empresa === this.nom_empresa)
+          this.filtrPrepedidosExist.map(data => {
+            console.log("data empresa: "+data.empresa + "data id: "+data.id_usuario)
+            if(((data.empresa === 'undefined') || (data.empresa == null)) && ((data.id_usuario === 'undefined') || (data.id_usuario == null))){
+              this.observador = false
+              console.log("observador: "+this.observador)
+            }else{
+              this.observador= true;
+              console.log("observador: "+this.observador)
+            }
+          })
+        }
+      )
+    })
+    
+      
+  }
+
+  
+  productsFilterArray(){
+    this.productsAngularList = this.afs.list('producto/')
+    this.productsAngularList.snapshotChanges().subscribe(
+      list => {
+        this.prodFiltr = list.map(item=> {
+          return {
+            $key: item.key,
+            ...item.payload.val()
+          }
+        })
+        //console.log("filtro: "+this.prodFiltr)
+        this.filtrprod = this.prodFiltr.filter(value => value.categoria_producto === 'silla' &&  value.empresa_proveedor === this.nom_empresa)
+        this.filtrprod.map(data => {
+          //console.log("filtro: "+data.nombre_producto)
+        })
+        
+      } 
+    )
   }
   
   showProducts(){
-    this.prodServ.getProduct().subscribe(data => {
-      data.map((item => {
-        if((item.empresa_proveedor === this.nom_empresa)){
-          this.listProd.push({
-            nombre_producto: item.nombre_producto,
-            descripcion: item.descripcion_producto,
-            categoria_producto: item.categoria_producto,
-            empresa: item.empresa_proveedor,
-            precio: item.precio_producto,
-            imagen: item.image_producto,
-            cantidad: item.cantidad_producto,
-            uid: item.uid_user,
-            id: item.id_prod  
-          })
-        }
-      }))
-    })
+    this.mainProds = false
+    this.selection = false;
+    this.listprodExistAngularList = this.afs.list('producto/')
+    this.listprodExistAngularList.snapshotChanges().subscribe(
+      list => {
+        this.listprodFiltrExist = list.map(item => {
+          return{
+            $key: item.key,
+            ...item.payload.val()
+          }
+        })
+        this.filtrlistprodExist = this.listprodFiltrExist.filter(value => value.empresa_proveedor === this.nom_empresa)
+        
+      }
+    )
   }
 
 
-  showPrepedido(){
-    this.prodServ.geteditPedidos().subscribe(data => {
+  async showPrepedido(){
+    this.prepedidosAngularList = this.afs.list('prepedido/')
+    this.prepedidosAngularList.snapshotChanges().subscribe(
+      list => {
+        this.prepedidosFiltr = list.map(item => {
+          return {
+            $key: item.key,
+            ...item.payload.val()
+          }
+        })
+        this.prepedidosFiltr.map(data => {
+          if(data.empresa === this.nom_empresa){
+            this.filtrPrepedidos = this.prepedidosFiltr.filter(value => value.empresa === this.nom_empresa )
+            this.filtrPrepedidos.map(dta => {
+              
+            })
+            if(this.prepedidosFiltr.length){
+              this.prepedidoIsEmpty = false;
+            }
+          }
+        })
+      }
+    )
+    /*
+      this.prodServ.geteditPedidos().subscribe(data => {
       data.map((item => {
         if(item.empresa === this.nom_empresa){
           this.prepedido.push({
@@ -102,14 +218,15 @@ export class ProductInfoPage implements OnInit {
             this.prepedidoIsEmpty = false;
           }
           
-          //console.log("arreglo prepedido: "+this.prepedido)          
         }
       }))
     })
+    */
+    
   }
 
   async goToPedidoList(){
-    console.log("empresa1: "+this.nom_empresa)
+    //console.log("empresa1: "+this.nom_empresa)
     const modal = await this.modalCtrl.create({
       component: PedidosListPage,
       componentProps: {
@@ -122,25 +239,19 @@ export class ProductInfoPage implements OnInit {
   CategorySelected(){
     this.categoriaFiltered = false;
     this.selection = true;
-    this.prodServ.getProduct().subscribe(data => {
-      data.map((item => {
-        if((item.categoria_producto === this.nombre_categoria) && (item.empresa_proveedor === this.nom_empresa))
-        {          
-          this.categorySelected.push({
-            nombre_producto: item.nombre_producto,
-            descripcion: item.descripcion_producto,
-            categoria_producto: item.categoria_producto,
-            empresa: item.empresa_proveedor,
-            precio: item.precio_producto,
-            imagen: item.image_producto,
-            cantidad: item.cantidad_producto,
-            uid: item.uid_user,
-            id: item.id_prod          
-          })
-        }
-        
-      }))
-    })
+    this.mainProds = true;
+    this.CategorySlectedExistAngularList = this.afs.list('producto/')
+    this.CategorySlectedExistAngularList.snapshotChanges().subscribe(
+      list => {
+        this.CategorySlectedFiltrExist = list.map(item => {
+          return{
+            $key: item.key,
+            ...item.payload.val()
+          }
+        })
+        this.filtrprodsCategorySlectedExist = this.CategorySlectedFiltrExist.filter(value => value.empresa_proveedor === this.nom_empresa && value.categoria_producto === this.nombre_categoria)
+      }
+    )    
   } 
   
 
@@ -153,28 +264,19 @@ export class ProductInfoPage implements OnInit {
     this.categoriaFiltered = true;
     this.mainProds = true
     this.productsFiltered = [];
-    console.log("categoria: "+nombre)
-    this.prodServ.getProduct().subscribe(data => {
-      data.map((item) => {
-        if(((item.categoria_producto === nombre) && (item.uid_user === this.id))){
-          console.log("nombre: "+item.nombre_producto+" empresa: "+item.empresa_proveedor) 
-          this.productsFiltered.push({
-            nombre_producto: item.nombre_producto,
-            descripcion: item.descripcion_producto,
-            categoria_producto: item.categoria_producto,
-            empresa: item.empresa_proveedor,
-            precio: item.precio_producto,
-            imagen: item.image_producto,
-            cantidad: item.cantidad_producto,
-            uid: item.uid_user,
-            id: item.id_prod
-          })
-          
-        }
-      })
-    })
-    
 
+    this.prodsCategoryExistAngularList = this.afs.list('producto/')
+    this.prodsCategoryExistAngularList.snapshotChanges().subscribe(
+      list => {
+        this.prodsCategoryFiltrExist = list.map(item => {
+          return{
+            $key: item.key,
+            ...item.payload.val()
+          }
+        })
+        this.filtrprodsCategoryExist = this.prodsCategoryFiltrExist.filter(value => (value.empresa_proveedor === this.nom_empresa && value.categoria_producto ===  nombre))
+      }
+    )
   }
 
   showCategorias(){
@@ -188,30 +290,15 @@ export class ProductInfoPage implements OnInit {
           })   
              
           this.categoria_duplicada = Array.from(this.categoria.reduce((map, obj) => map.set(obj.categoria, obj), new Map()).values())
-          this.categoria_duplicada.map((data => {
-            console.log("nueva categoria: "+data.categoria)
-          }))
+          
         }
         
       })
-    })
-
-    /*
-      this.prodServ.getCategory().subscribe(data => {
-      data.map((item) => {
-        this.categoria.push({
-          id: item.id_categoria,
-          categoria: item.nombre_categoria
-        })        
-      })
-    })
-
-    */
-    
+    })    
   }
 
 
-  async modalPedido(nombre_empresa, id_prod, nombre_producto,nombre_proveedor, descripcion_producto, categoria_producto, cantidad_producto, precio_producto, uid_user,image_producto){
+  async modalPedido(nombre_empresa, id_prod, nombre_producto,nombre_proveedor, descripcion_producto, categoria_producto, cantidad_producto, precio_producto,image_producto){
     const modal = await this.modalCtrl.create({
       component: ModalPedidoPage,
       componentProps: {

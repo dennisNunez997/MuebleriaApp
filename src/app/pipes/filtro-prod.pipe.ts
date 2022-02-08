@@ -12,11 +12,8 @@ export class FiltroProdPipe implements PipeTransform {
       return arreglo;
     
     }
-    return arreglo.filter(arreglo =>
-    
-      arreglo.nombre_producto.toLowerCase().includes(textoBuscarProd.toLocaleLowerCase())
-      ||
-      arreglo.categoria_producto.toLowerCase().includes(textoBuscarProd.toLocaleLowerCase())      
+    return arreglo.filter(arreglo =>    
+      arreglo.nombre_producto.toLowerCase().includes(textoBuscarProd.toLocaleLowerCase()) ||  arreglo.categoria_producto.toLowerCase().includes(textoBuscarProd.toLocaleLowerCase())      
     )
   }
 
